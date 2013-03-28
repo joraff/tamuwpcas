@@ -142,7 +142,7 @@ function iu_cas_admin_menu_link() {
 	add_menu_page('TAMU CAS Settings', 'TAMU CAS', $user_role, 'iu-cas-settings', 'iuwpcas_admin', $icon);
 	add_submenu_page('iu-cas-settings', 'TAMU CAS Logout Settings', 'TAMU CAS Logout', $user_role, 'iu-cas-logout-settings', 'iuwpcas_logout_options');
   // add_submenu_page('iu-cas-settings', 'IU CAS URL Settings', 'IU CAS URL', $user_role, 'iu-cas-url-settings', 'iuwpcas_url_options');
-	add_submenu_page('iu-cas-settings', 'TAMU CAS Lockdown Settings', 'TAMU CAS Lockdwon', $user_role, 'iu-cas-lockdown-settings', 'iuwpcas_lockdown_options');
+	add_submenu_page('iu-cas-settings', 'TAMU CAS Lockdown Settings', 'TAMU CAS Lockdown', $user_role, 'iu-cas-lockdown-settings', 'iuwpcas_lockdown_options');
 
 }
 
