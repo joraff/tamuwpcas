@@ -187,7 +187,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 				$requested_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 				// $url = preg_replace('/\?casticket.*/', '', $requested_url);
 				
-				if (self::has_cas_ticket()) {
+				if (self::has_cas_ticket() || $_SERVER['REQUEST_URI'] == "/wp-admin/" ) {
 					return false;
 				} else {
 					self::get_cas_ticket($requested_url);
