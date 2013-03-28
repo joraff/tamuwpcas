@@ -229,7 +229,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 		}
 		
 		function has_cas_ticket() {
-			if ( !isset($_GET['casticket']) || (empty($_GET['casticket'])) ) {
+			if ( !isset($_GET['ticket']) || (empty($_GET['ticket'])) ) {
 				return false;
 			} else {
 				return true;
@@ -258,7 +258,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 			 * If they don't have one set, we need to kick them out to CAS to get a ticket
 			 * set before proceeding.
 			 */
-			if ( !isset($_GET['casticket']) || (empty($_GET['casticket'])) ) {
+			if ( !isset($_GET['ticket']) || (empty($_GET['ticket'])) ) {
 				wp_redirect( $cas_login );
 				exit();
 			}
