@@ -249,7 +249,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 			 * Login URL we are using for CAS authentication for users to get a CAS ticket.
 			 */
 
-			$cas_login = "https://cas.tamu.edu/cas/login?service=".$requested_url;
+			$cas_login = "https://cas.tamu.edu/cas/login?service=".urlencode($requested_url);
 			
 			/**
 			 * Check for CAS ticket set in URL parameters.
@@ -271,7 +271,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 			/**
 			 * URL we send users to for validation of their CAS ticket
 			 */
-			$cas_validate_url = "https://cas.tamu.edu/cas/validate?&ticket=".$cas_ticket;
+			$cas_validate_url = "https://cas.tamu.edu/cas/validate?&ticket=".$cas_ticket."&service=".urlencode($requested_url);
 		    
 		    /**
 		     * Response back from CAS after ticket validation.
