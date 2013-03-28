@@ -10,7 +10,7 @@ function iuwpcas_logout_options() {
 	<h2>TAMU Wordpress CAS Admin</h2>
 	<form action="options.php" method="post">
 		<fieldset>CAS Logout Options
-			<?php settings_fields('iucas-options');?>
+			<?php settings_fields('iucas-logout-options');?>
 			<h3>Post-logout Preferences</h3>
 			<p>When the user chooses to logout, would you like them to be logged out of just this website,
 				or to also be logged out of the Central Authentication Service (CAS)? Recommended value: just this website.</p>

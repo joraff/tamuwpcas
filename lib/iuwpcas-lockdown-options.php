@@ -10,7 +10,7 @@ function iuwpcas_lockdown_options() {
 	<h2>TAMU Wordpress CAS Admin</h2>
 	<form action="options.php" method="post">
 		<fieldset>CAS Lockdown Options
-			<?php settings_fields('iucas-options');?>
+			<?php settings_fields('iucas-lockdown-options');?>
 			<h3>Lockdown Preferences</h3>
 			<p>This setting determines whether to show the public part of the site to all visitors <em>(default)</em>, or only show it to CAS-Authenticated users.</p>
 			<ul>

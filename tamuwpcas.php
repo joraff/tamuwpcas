@@ -93,9 +93,9 @@ add_filter('login_url', array('IUCASAuthentication', 'bypass_reauth'));
 */
 add_action('admin_init', 'register_options');
 function register_options() {
-	register_setting('iucas-options', 'logout_type');
-	register_setting('iucas-options', 'lockdown');
+	register_setting('iucas-logout-options', 'logout_type');
 	// register_setting('iucas-options', 'cassvc');
+	register_setting('iucas-lockdown-options', 'lockdown');
 }
 
 register_activation_hook(__FILE__, 'initial_defaults');
@@ -107,11 +107,12 @@ function initial_defaults() {
 
 register_deactivation_hook(__FILE__, 'unregister_options');
 function unregister_options() {
-	unregister_setting('iucas-options', 'logout_type');
-	update_option('logout_type', '');
+	unregister_setting('iucas-logout-options', 'logout_type');
 	// unregister_setting('iucas-options', 'cassvc');
-	update_option('lockdown', '');
+	unregister_setting('iucas-lockdown-options', 'lockdown');
+	// update_option('logout_type', '');
 	// update_option('cassvc', '');
+	// update_option('lockdown', '');
 }
 
 register_uninstall_hook(__FILE__, 'uninstall_options');
