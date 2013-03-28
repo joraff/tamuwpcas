@@ -94,30 +94,30 @@ add_filter('login_url', array('IUCASAuthentication', 'bypass_reauth'));
 add_action('admin_init', 'register_options');
 function register_options() {
 	register_setting('iucas-options', 'logout_type');
-	register_setting('iucas-options', 'cassvc');
 	register_setting('iucas-options', 'lockdown');
+	// register_setting('iucas-options', 'cassvc');
 }
 
 register_activation_hook(__FILE__, 'initial_defaults');
 function initial_defaults() {
 	update_option('logout_type', 'cas');
-	update_option('cassvc', 'IU');
+	// update_option('cassvc', 'IU');
 	update_option('lockdown', 'false');
 }
 
 register_deactivation_hook(__FILE__, 'unregister_options');
 function unregister_options() {
 	unregister_setting('iucas-options', 'logout_type');
-	unregister_setting('iucas-options', 'cassvc');
 	update_option('logout_type', '');
-	update_option('cassvc', '');
+	// unregister_setting('iucas-options', 'cassvc');
 	update_option('lockdown', '');
+	// update_option('cassvc', '');
 }
 
 register_uninstall_hook(__FILE__, 'uninstall_options');
 function uninstall_options() {
 	delete_option('logout_type');
-	delete_option('cassvc');
+	// delete_option('cassvc');
 	delete_option('lockdown');
 }
 
@@ -127,7 +127,7 @@ function uninstall_options() {
 if (is_admin()) {
 	include_once('lib/iuwpcas-admin.php');
 	include_once('lib/iuwpcas-logout-options.php');
-  // include_once('lib/iuwpcas-url-options.php');
+	// include_once('lib/iuwpcas-url-options.php');
 	include_once('lib/iuwpcas-lockdown-options.php');
 	
 	$admin_menu = (is_multisite()) ? 'network_admin_menu' : 'admin_menu'; // Detects whether website is using multisite and sends appropriate argument to add_action on next line
