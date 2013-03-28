@@ -7,7 +7,7 @@ function iuwpcas_lockdown_options() {
 <!-- options for cas url settings -->
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"></div>
-	<h2>IU Wordpress CAS Admin</h2>
+	<h2>TAMU Wordpress CAS Admin</h2>
 	<form action="options.php" method="post">
 		<fieldset>CAS Lockdown Options
 			<?php settings_fields('iucas-options');?>
@@ -37,7 +37,7 @@ function iuwpcas_lockdown_options() {
 				<input type="submit" class="button-primary" name="Save"
 				value="<?php _e('Save Options');?>"
 				id="submitbutton" />
-				<a href="https://github.com/mtheoryx/iuwpcas" class="button-secondary" title="help">Help</a>
+				<a href="https://github.com/joraff/tamuwpcas" class="button-secondary" title="help">Help</a>
 			</p>
 		</fieldset>
 	</form>

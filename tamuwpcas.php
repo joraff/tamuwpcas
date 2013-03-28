@@ -1,16 +1,18 @@
 <?php
 /**
- * IU WpCAS
+ * TAMU WpCAS
  *
- * A free plugin to integrate WordPress with Indiana University's CAS Authentication.
+ * A free plugin to integrate WordPress with Texas A&M University's CAS Authentication.
  * 
- * This is a plugin to integrate with Indiana University's Central Authentication System (CAS).
+ * This is a plugin to integrate with TAMU's Central Authentication System (CAS).
  * The purpose is to offload the handling of users/passwords to a trusted system for authentication
  * (are they who they say they are?) purposes, while still maintaining control for authorization 
  * (what is this person allowed to see/do?) from within the backend of the WordPress admin panel. 
- * Users are added by IU network ID, with no need to worry about choosing passwords. Additionally, 
+ * Users are added by TAMU NetID, with no need to worry about choosing passwords. Additionally, 
  * the maintainer of the blog now doesn't have to handle forgotten passwords or password resets. 
- * The plugin is provided for free (libre & gratis) to the IU Community (and anyone else who uses a similar CAS system) by the Indiana University UITS Enterprise Web Tech Services team.
+ * The plugin is provided for free (libre & gratis) to the TAMU Community (and anyone else who uses 
+ * a similar CAS  system) by the College of Liberal Arts Office of the Dean IT. This plugin is 
+ * based on a similar plugin provided by the Indiana University UITS Enterprise Web Tech Services team.
  *
  * PHP version 5
  * 
@@ -29,22 +31,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  *
- * @package     IUWpCAS
+ * @package     TAMUWpCAS
+ * @author      Joseph Rafferty <jrafferty@tamu.edu>
  * @author      David R. Poindexter III <davpoind@iupui.edu>
- * @copyright   2011 Indiana University
- * @link        https://github.com/mtheoryx/iuwpcas
+ * @copyright   2013 Texas A&M University
+ * @link        https://github.com/joraff/tamuwpcas
  * @license     GPLv2 or later
  * @version     0.2.0
  * @since       File available since release 0.1.0
  */
 
 /*
-    Plugin Name: IU WP CAS
-    Plugin URI: https://github.com/mtheoryx/iuwpcas
-    Description: This is a plugin to integrate with Indiana University's Central Authentication System (CAS).
+    Plugin Name: TAMU WP CAS
+    Plugin URI: https://github.com/joraff/tamuwpcas
+    Description: This is a plugin to integrate with Texas A&M University's Central Authentication System (CAS).
+    Author: Joseph Rafferty
     Author: David R Poindexter III
     Version: 0.1.0
-    Author URI: http://davidrpoindexter.com/
     License: GPLv2 or later
 */
 
@@ -62,6 +65,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
 
 /**
  * Used internally by WordPress
@@ -123,7 +127,7 @@ function uninstall_options() {
 if (is_admin()) {
 	include_once('lib/iuwpcas-admin.php');
 	include_once('lib/iuwpcas-logout-options.php');
-	include_once('lib/iuwpcas-url-options.php');
+  // include_once('lib/iuwpcas-url-options.php');
 	include_once('lib/iuwpcas-lockdown-options.php');
 	
 	$admin_menu = (is_multisite()) ? 'network_admin_menu' : 'admin_menu'; // Detects whether website is using multisite and sends appropriate argument to add_action on next line
@@ -131,12 +135,12 @@ if (is_admin()) {
 }
 
 function iu_cas_admin_menu_link() {
-	$icon = plugin_dir_url( __FILE__ ).'assets/img/blockiu_white.gif';
+	$icon = plugin_dir_url( __FILE__ ).'assets/img/tamu.edu.png';
 	$user_role = (is_multisite()) ? 'superadmin' : 'administrator'; // Detects whether website is using multisite and sets appropriate user role in add_menu_page add_submenu_page below
 	
 	add_menu_page('IU CAS Settings', 'IU CAS', $user_role, 'iu-cas-settings', 'iuwpcas_admin', $icon);
 	add_submenu_page('iu-cas-settings', 'IU CAS Logout Settings', 'IU CAS Logout', $user_role, 'iu-cas-logout-settings', 'iuwpcas_logout_options');
-	add_submenu_page('iu-cas-settings', 'IU CAS URL Settings', 'IU CAS URL', $user_role, 'iu-cas-url-settings', 'iuwpcas_url_options');
+  // add_submenu_page('iu-cas-settings', 'IU CAS URL Settings', 'IU CAS URL', $user_role, 'iu-cas-url-settings', 'iuwpcas_url_options');
 	add_submenu_page('iu-cas-settings', 'IU CAS Lockdown Settings', 'IU CAS Lockdwon', $user_role, 'iu-cas-lockdown-settings', 'iuwpcas_lockdown_options');
 }
 
@@ -156,7 +160,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 	 * 
 	 * {{@internal Missing Long Description}}}
 	 * 
-	 * @package IUWpCas
+	 * @package TAMUWpCas
 	 * @since 0.1.0
 	 */
 	class IUCASAuthentication {    
@@ -243,12 +247,8 @@ if ( !class_exists('IUCASAuthentication') ) {
 			/**
 			 * Login URL we are using for CAS authentication for users to get a CAS ticket.
 			 */
-			if ( get_option('cassvc') ) {
-				$cassvc = get_option('cassvc');
-			} else {
-				$cassvc = "IU";
-			}
-			$cas_login = "https://cas.iu.edu/cas/login?cassvc=".$cassvc."&casurl=".$requested_url;
+
+			$cas_login = "https://cas.tamu.edu/cas/login?service=".$requested_url;
 			
 			/**
 			 * Check for CAS ticket set in URL parameters.
@@ -264,25 +264,26 @@ if ( !class_exists('IUCASAuthentication') ) {
 			/**
 			 * CAS ticket returned as a URL GET parameter.
 			 */
-			$cas_ticket = $_GET['casticket']; //we know they have a cas ticket set
+      
+			$cas_ticket = $_GET['ticket']; //we know they have a cas ticket set
 			
 			/**
 			 * URL we send users to for validation of their CAS ticket
 			 */
-			$cas_validate_url = "https://cas.iu.edu/cas/validate?cassvc=".$cassvc."&casticket=".$cas_ticket.'&casurl='.$requested_url;
+			$cas_validate_url = "https://cas.tamu.edu/cas/validate?&ticket=".$cas_ticket;
 		    
 		    /**
 		     * Response back from CAS after ticket validation.
 		     * 
 		     * Possible values:
 		     * -Line 1: yes or no
-		     * -Line 2: IU Network ID or blank
+		     * -Line 2: NetID or blank
 		     */
 			$lines = file( $cas_validate_url );
 			$cas_response = rtrim( $lines[0] );
 			
 			/**
-		     * If ticket was valid, sets the IU Network ID sent back in CAS validation response.
+		     * If ticket was valid, sets the NetID sent back in CAS validation response.
 		     */
 			if ( $cas_response != "no" ) {
                 $cas_user_id = rtrim( $lines[1] );
@@ -312,13 +313,13 @@ if ( !class_exists('IUCASAuthentication') ) {
 		}
 		
 		/**
-		 * Bypasses WP login to IU CAS service to avoid reauthentication via Wordpress
+		 * Bypasses WP login to TAMU CAS service to avoid reauthentication via Wordpress
 		 * 
 		 * @param $login_url string
 		 * @return $login_url string
 		 */
 	    function bypass_reauth( $login_url ) {
-			$login_url = 'https://cas.iu.edu/cas/login?cassvc=IU&casurl='.get_option('siteurl').'/wp-login.php';
+			$login_url = 'https://cas.tamu.edu/cas/login?service='.get_option('siteurl').'/wp-login.php';
 	        return $login_url;
 	    }
 	    
@@ -336,7 +337,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 			if ( checked('site', get_option('logout_type'), false) ) {
 				wp_redirect( get_option('siteurl') );
 			} else if ( checked('cas', get_option('logout_type'), false) ) {
-				wp_redirect( 'https://cas.iu.edu/cas/logout' );
+				wp_redirect( 'https://cas.tamu.edu/cas/logout' );
 			} else {
 				//no option set yet
 				wp_redirect( get_option('siteurl') );

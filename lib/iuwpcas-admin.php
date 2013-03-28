@@ -6,9 +6,9 @@ function iuwpcas_admin() {
 
 <!-- options for cas logout settings -->
 <div class="wrap">
-	<h2>IU WP CAS Plugin</h2>
-	<p>This plugin was developed by David Poindexter at Indiana University for UITS Enterprise Web Tech services.</p>
-	<p>You can visit the <a href="https://github.com/mtheoryx/iuwpcas">Github page for this plugin here</a> for:</p>
+	<h2>TAMU WP CAS Plugin</h2>
+	<p>This plugin was developed by Joseph Rafferty at Texas A&amp;M University College of Liberal Arts IT, based closely on a plugin by David Poindexter of the Indiana University UITS Enterprise Web Tech Services team.</p>
+	<p>You can visit the <a href="https://github.com/joraff/tamuwpcas">Github page for this plugin here</a> for:</p>
 	<ul>
 		<li>Up-to-date installation and usage instructions.</li>
 		<li>The most current source of the plugin.</li>
