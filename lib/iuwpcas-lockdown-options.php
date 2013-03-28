@@ -34,9 +34,7 @@ function iuwpcas_lockdown_options() {
 				</li>
 			</ul>
 			<p>
-				<input type="submit" class="button-primary" name="Save"
-				value="<?php _e('Save Options');?>"
-				id="submitbutton" />
+				<?php submit_button("Save Changes", "primary", "submit", false); ?>
 				<a href="https://github.com/joraff/tamuwpcas" class="button-secondary" title="help">Help</a>
 			</p>
 		</fieldset>
