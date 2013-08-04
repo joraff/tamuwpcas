@@ -67,6 +67,9 @@
 */
 
 
+$cas_server = "cas.tamu.edu";
+$cas_dev_server = "cas-dev.tamu.edu";
+
 /**
  * Used internally by WordPress
  * 
@@ -146,7 +149,15 @@ function iu_cas_admin_menu_link() {
 
 }
 
+function get_cas_server()
+{
+	$server = $cas_server;
+	if( strpos( $_SERVER['SERVER_NAME'], '-dev' ) ) {
+		$server = $cas_dev_server;
+	}
 
+	return $server;
+}
 
 /**
  * Checks if the plugin class has already been defined. If not, it defines it here.
@@ -250,7 +261,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 			 * Login URL we are using for CAS authentication for users to get a CAS ticket.
 			 */
 
-			$cas_login = "https://cas.tamu.edu/cas/login?service=".urlencode($requested_url);
+			$cas_login = "https://".get_cas_server()."/cas/login?service=".urlencode($requested_url);
 			
 			/**
 			 * Check for CAS ticket set in URL parameters.
@@ -272,7 +283,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 			/**
 			 * URL we send users to for validation of their CAS ticket
 			 */
-			$cas_validate_url = "https://cas.tamu.edu/cas/validate?ticket=".$cas_ticket."&service=".urlencode($requested_url);
+			$cas_validate_url = "https://".get_cas_server()."/cas/validate?ticket=".$cas_ticket."&service=".urlencode($requested_url);
 		    
 		    /**
 		     * Response back from CAS after ticket validation.
@@ -321,7 +332,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 		 * @return $login_url string
 		 */
 	    function bypass_reauth( $login_url ) {
-			$login_url = 'https://cas.tamu.edu/cas/login?service='.get_option('siteurl').'/wp-login.php';
+			$login_url = 'https://'.get_cas_server().'/cas/login?service='.get_option('siteurl').'/wp-login.php';
 	        return $login_url;
 	    }
 	    
@@ -339,7 +350,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 			if ( checked('site', get_option('logout_type'), false) ) {
 				wp_redirect( get_option('siteurl') );
 			} else if ( checked('cas', get_option('logout_type'), false) ) {
-				wp_redirect( 'https://cas.tamu.edu/cas/logout' );
+				wp_redirect( 'https://'.get_cas_server().'/cas/logout' );
 			} else {
 				//no option set yet
 				wp_redirect( get_option('siteurl') );
