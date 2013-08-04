@@ -151,8 +151,9 @@ function iu_cas_admin_menu_link() {
 
 function get_cas_server()
 {
+	global $cas_server, $cas_dev_server;
 	$server = $cas_server;
-	if( strpos( $_SERVER['SERVER_NAME'], '-dev' ) ) {
+	if( strpos( $_SERVER['HTTP_HOST'], '-dev' ) !== false) {
 		$server = $cas_dev_server;
 	}
 

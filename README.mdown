@@ -20,6 +20,10 @@ The purpose of this plugin is to offload the handling of users/passwords to a tr
 
 In order for this plugin to work properly, your *WordPress username* must be the same as your *CAS username*. This applies to all other users.
 
+If you would like to use to development CAS server instead of prodution, ensure your server's name includes -dev in it somewhere.
+
+If you need to change the CAS servers, edit the $cas_server and $cas_dev_server variables.
+
 [cas]: http://infrastructure.tamu.edu/auth/CAS/cas.html#tab_tab1 "Texas A&M Central Authentication Service"
 [ewts]: http://uits.iu.edu/page/awty "Information about Enterprise Web Technical Services"
 [plugin]: https://github.com/joraff/tamuwpcas "TAMU WP CAS plugin on GitHub"
