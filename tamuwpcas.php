@@ -229,12 +229,24 @@ if ( !class_exists('IUCASAuthentication') ) {
 			$wp_user = get_userdatabylogin( $cas_user_id );
 		
 			if ( !$wp_user ) { 
-				//could direct to error page, or show a notice that they aren't allowed here
-				wp_redirect( site_url() );
+				$email = get_option( 'admin_email' );
+				$site_url = get_bloginfo( 'siteurl' );
+				$message = __( sprintf( 'You have a valid NetID, but you have not been granted access to this site. Please contact <a href="mailto:%1$s">%1$s</a> to have an account created.' ), $email );
+				$title = __( 'No Account on This Site' );
+				$args = array( 'back_link' => $site_url, 'response' => 403 );
+				wp_die( $message, $title, $args );
+				/*
+				// populate a new WP account using NetID
+				$email = $cas_user_id.'@tamu.edu';
+				// the following is the same as check_passwords()
+				$random_password = substr( md5( uniqid( microtime( ))), 0, 8 );  
+				wp_create_user( $cas_user_id, $random_password, $email );
+				wp_redirect( admin_url('profile.php') );
+				/**/
 			} else {
 				$wp_username = $wp_user->user_login;
 				wp_set_auth_cookie( $wp_user->ID );
-				wp_redirect( site_url('/wp-admin/') );
+				wp_redirect( admin_url() );
 				die();
 			}
 		
