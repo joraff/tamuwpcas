@@ -34,10 +34,10 @@
  * @package     TAMUWpCAS
  * @author      Joseph Rafferty <jrafferty@tamu.edu>
  * @author      David R. Poindexter III <davpoind@iupui.edu>
- * @copyright   2013 Texas A&M University
+ * @copyright   2014 Texas A&M University
  * @link        https://github.com/joraff/tamuwpcas
  * @license     GPLv2 or later
- * @version     0.2.0
+ * @version     0.2.1
  * @since       File available since release 0.1.0
  */
 
@@ -196,13 +196,12 @@ if ( !class_exists('IUCASAuthentication') ) {
 		function lock_down_check() {
 			if ( get_option('lockdown') == "true" ) {
 				$cas_lockdown = true;
-				$requested_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 				// $url = preg_replace('/\?casticket.*/', '', $requested_url);
 				
 				if (self::has_cas_ticket() || $_SERVER['REQUEST_URI'] == "/wp-admin/" ) {
 					return false;
 				} else {
-					self::get_cas_ticket($requested_url);
+					self::get_cas_ticket(requested_url());
 				}
 				
 				if ($cas_response == false) {
@@ -215,8 +214,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 		
 		function authenticate( &$username, &$password ) {
 			global $using_cookie, $cas_configured;
-			$requested_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-			$cas_response = self::get_cas_ticket($requested_url);
+			$cas_response = self::get_cas_ticket($requested_url());
 			
 			if ($cas_response !== false) {
 				$cas_user_id = $cas_response;
@@ -390,7 +388,13 @@ if ( !class_exists('IUCASAuthentication') ) {
 	    function disable_function() {
 	      die('Disabled');
 	    }
-	    
+
+	    /*
+	      Returns the requested URL
+	     */
+	    function requested_url() {
+	    	return 'http' . ($_SERVER['HTTPS'] ? 's' : '') . '://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	    }
 	}
 	
 }
