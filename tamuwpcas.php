@@ -160,6 +160,13 @@ function get_cas_server()
 	return $server;
 }
 
+/*
+  Returns the requested URL
+ */
+function requested_url() {
+	return 'http' . ($_SERVER['HTTPS'] ? 's' : '') . '://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+}
+
 /**
  * Checks if the plugin class has already been defined. If not, it defines it here.
  * 
@@ -387,13 +394,6 @@ if ( !class_exists('IUCASAuthentication') ) {
 	     */
 	    function disable_function() {
 	      die('Disabled');
-	    }
-
-	    /*
-	      Returns the requested URL
-	     */
-	    function requested_url() {
-	    	return 'http' . ($_SERVER['HTTPS'] ? 's' : '') . '://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 	    }
 	}
 	
