@@ -214,7 +214,7 @@ if ( !class_exists('IUCASAuthentication') ) {
 		
 		function authenticate( &$username, &$password ) {
 			global $using_cookie, $cas_configured;
-			$cas_response = self::get_cas_ticket($requested_url());
+			$cas_response = self::get_cas_ticket(requested_url());
 			
 			if ($cas_response !== false) {
 				$cas_user_id = $cas_response;
